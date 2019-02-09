@@ -1,7 +1,9 @@
-﻿using Univoting.Admin.Views;
+﻿using System;
+using Univoting.Admin.Views;
 using Prism.Ioc;
-using Prism.Modularity;
 using System.Windows;
+using UniVoting.Data;
+using UniVoting.Services;
 
 namespace Univoting.Admin
 {
@@ -17,7 +19,17 @@ namespace Univoting.Admin
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            try
+            {
+                containerRegistry.RegisterInstance(typeof(ElectionDbContext),new ElectionDbContext());
+                containerRegistry.Register<IElectionConfigurationService, ElectionConfigurationService>();
 
+            }
+            catch (Exception e)
+            {
+                
+                throw new Exception(e.Message,e);
+            }
         }
     }
 }
